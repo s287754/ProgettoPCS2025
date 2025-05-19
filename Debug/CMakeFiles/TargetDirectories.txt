@@ -1,0 +1,7 @@
+/home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles/GeodesicPolyhedra.dir
+/home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles/edit_cache.dir
+/home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles/rebuild_cache.dir
+/home/appuser/Data/Project/ProgettoPCS2025/Debug/src/CMakeFiles/edit_cache.dir
+/home/appuser/Data/Project/ProgettoPCS2025/Debug/src/CMakeFiles/rebuild_cache.dir
+/home/appuser/Data/Project/ProgettoPCS2025/Debug/ExportParaview/CMakeFiles/edit_cache.dir
+/home/appuser/Data/Project/ProgettoPCS2025/Debug/ExportParaview/CMakeFiles/rebuild_cache.dir
