@@ -1,20 +1,35 @@
 #include <iostream>
-#include <fstream>
-#include <string>
-#include "DataGenerator.hpp"
+#include <array>
+#include "Utils.hpp"
 #include "Geometry.hpp"
+#include "UCDUtilities.hpp"
 
 using namespace std;
-using namespace GeometryLibrary;
+using namespace PolyhedralLibrary;
 
-int main ()
-{
-	cout << "RandMax: " << RAND_MAX <<endl;
+int main () {
 	
-	int r = rand();
-    double t = static_cast<double>(r) / RAND_MAX;
-    cout << "rand: " << r << ", t: " << t << std::endl;
-	dataGeneratorCell0Ds(20, "Cell0Ds.txt");
-	dataGeneratorCell1Ds(20, "Cell1Ds.txt", "Cell0Ds.txt");
+	cout << "Inserisci una quadrupla di valori:\n" << endl;
+	
+	array <unsigned int,4> input;
+	cin >> input[0] >> input[1] >> input[2] >> input[3];
+	
+	 
+	Polyhedral tetrahedron;
+	createTetrahedron(tetrahedron);
+	cout << "Num facce prima di GeodesicPolyhedron: " << tetrahedron.NumCell2Ds << endl;
+	DualPolygon(tetrahedron);
+	GeodesicPolyhedron(input[0],input[1],input[2],input[3],tetrahedron);
+	
+	Polyhedral cube;
+	createCube(cube);
+	DualPolygon(cube);
+	
+	Polyhedral icosahedron;
+	createIcosahedron(icosahedron);
+	DualPolygon(icosahedron);
+	
+	exportToUCD(tetrahedron, "tetrahedron");
+
 	return 0;
 }

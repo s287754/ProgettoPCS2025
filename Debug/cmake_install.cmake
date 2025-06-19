@@ -44,8 +44,9 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/appuser/Data/Project/ProgettoPCS2025/Debug/src/cmake_install.cmake")
-  include("/home/appuser/Data/Project/ProgettoPCS2025/Debug/ExportParaview/cmake_install.cmake")
+  include("/home/appuser/Data/project/progettopcs2025/debug/src/cmake_install.cmake")
+  include("/home/appuser/Data/project/progettopcs2025/debug/src_test/cmake_install.cmake")
+  include("/home/appuser/Data/project/progettopcs2025/debug/ExportParaview/cmake_install.cmake")
 
 endif()
 
@@ -57,5 +58,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/appuser/Data/Project/ProgettoPCS2025/Debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/appuser/Data/project/progettopcs2025/debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

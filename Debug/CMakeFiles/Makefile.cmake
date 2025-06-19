@@ -7,12 +7,13 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "../CMakeLists.txt"
+  "/home/appuser/Data/Project/ProgettoPCS2025/CMakeLists.txt"
+  "/home/appuser/Data/Project/ProgettoPCS2025/ExportParaview/CMakeLists.txt"
+  "/home/appuser/Data/Project/ProgettoPCS2025/src/CMakeLists.txt"
+  "/home/appuser/Data/Project/ProgettoPCS2025/src_test/CMakeLists.txt"
   "CMakeFiles/3.22.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.22.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.22.1/CMakeSystem.cmake"
-  "../ExportParaview/CMakeLists.txt"
-  "../src/CMakeLists.txt"
   "/usr/lib/x86_64-linux-gnu/cmake/GTest/GMockTargets-none.cmake"
   "/usr/lib/x86_64-linux-gnu/cmake/GTest/GMockTargets.cmake"
   "/usr/lib/x86_64-linux-gnu/cmake/GTest/GTestConfig.cmake"
@@ -61,10 +62,12 @@ set(CMAKE_MAKEFILE_OUTPUTS
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   "src/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "src_test/CMakeFiles/CMakeDirectoryInformation.cmake"
   "ExportParaview/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/GeodesicPolyhedra.dir/DependInfo.cmake"
+  "CMakeFiles/GeodesicPolyhedra_TEST.dir/DependInfo.cmake"
   )

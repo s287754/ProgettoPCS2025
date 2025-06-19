@@ -56,7 +56,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/appuser/Data/Project/ProgettoPCS2025
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/appuser/Data/Project/ProgettoPCS2025/Debug
+CMAKE_BINARY_DIR = /home/appuser/Data/project/progettopcs2025/debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/GeodesicPolyhedra.dir/depend.make
@@ -70,9 +70,9 @@ include CMakeFiles/GeodesicPolyhedra.dir/progress.make
 include CMakeFiles/GeodesicPolyhedra.dir/flags.make
 
 CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o: CMakeFiles/GeodesicPolyhedra.dir/flags.make
-CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o: ../main.cpp
+CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o: /home/appuser/Data/Project/ProgettoPCS2025/main.cpp
 CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o: CMakeFiles/GeodesicPolyhedra.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/appuser/Data/project/progettopcs2025/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o -MF CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o.d -o CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o -c /home/appuser/Data/Project/ProgettoPCS2025/main.cpp
 
 CMakeFiles/GeodesicPolyhedra.dir/main.cpp.i: cmake_force
@@ -84,9 +84,9 @@ CMakeFiles/GeodesicPolyhedra.dir/main.cpp.s: cmake_force
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/appuser/Data/Project/ProgettoPCS2025/main.cpp -o CMakeFiles/GeodesicPolyhedra.dir/main.cpp.s
 
 CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o: CMakeFiles/GeodesicPolyhedra.dir/flags.make
-CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o: ../src/Utils.cpp
+CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o: /home/appuser/Data/Project/ProgettoPCS2025/src/Utils.cpp
 CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o: CMakeFiles/GeodesicPolyhedra.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/appuser/Data/project/progettopcs2025/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o -MF CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o.d -o CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o -c /home/appuser/Data/Project/ProgettoPCS2025/src/Utils.cpp
 
 CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.i: cmake_force
@@ -97,10 +97,24 @@ CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/appuser/Data/Project/ProgettoPCS2025/src/Utils.cpp -o CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.s
 
+CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.o: CMakeFiles/GeodesicPolyhedra.dir/flags.make
+CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.o: /home/appuser/Data/Project/ProgettoPCS2025/src/Geometry.cpp
+CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.o: CMakeFiles/GeodesicPolyhedra.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/appuser/Data/project/progettopcs2025/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.o -MF CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.o.d -o CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.o -c /home/appuser/Data/Project/ProgettoPCS2025/src/Geometry.cpp
+
+CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/appuser/Data/Project/ProgettoPCS2025/src/Geometry.cpp > CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.i
+
+CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/appuser/Data/Project/ProgettoPCS2025/src/Geometry.cpp -o CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.s
+
 CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o: CMakeFiles/GeodesicPolyhedra.dir/flags.make
-CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o: ../src/DataGenerator.cpp
+CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o: /home/appuser/Data/Project/ProgettoPCS2025/src/DataGenerator.cpp
 CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o: CMakeFiles/GeodesicPolyhedra.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/appuser/Data/project/progettopcs2025/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o -MF CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o.d -o CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o -c /home/appuser/Data/Project/ProgettoPCS2025/src/DataGenerator.cpp
 
 CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.i: cmake_force
@@ -112,9 +126,9 @@ CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.s: cmake_force
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/appuser/Data/Project/ProgettoPCS2025/src/DataGenerator.cpp -o CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.s
 
 CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o: CMakeFiles/GeodesicPolyhedra.dir/flags.make
-CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o: ../ExportParaview/UCDUtilities.cpp
+CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o: /home/appuser/Data/Project/ProgettoPCS2025/ExportParaview/UCDUtilities.cpp
 CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o: CMakeFiles/GeodesicPolyhedra.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/appuser/Data/project/progettopcs2025/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o -MF CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o.d -o CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o -c /home/appuser/Data/Project/ProgettoPCS2025/ExportParaview/UCDUtilities.cpp
 
 CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.i: cmake_force
@@ -129,6 +143,7 @@ CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.s: cmake_force
 GeodesicPolyhedra_OBJECTS = \
 "CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o" \
 "CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o" \
+"CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.o" \
 "CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o" \
 "CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o"
 
@@ -137,6 +152,7 @@ GeodesicPolyhedra_EXTERNAL_OBJECTS =
 
 GeodesicPolyhedra: CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o
 GeodesicPolyhedra: CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o
+GeodesicPolyhedra: CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.o
 GeodesicPolyhedra: CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o
 GeodesicPolyhedra: CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o
 GeodesicPolyhedra: CMakeFiles/GeodesicPolyhedra.dir/build.make
@@ -147,7 +163,7 @@ GeodesicPolyhedra: /usr/lib/x86_64-linux-gnu/libgmock_main.a
 GeodesicPolyhedra: /usr/lib/x86_64-linux-gnu/libgmock.a
 GeodesicPolyhedra: /usr/lib/x86_64-linux-gnu/libgtest.a
 GeodesicPolyhedra: CMakeFiles/GeodesicPolyhedra.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable GeodesicPolyhedra"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/appuser/Data/project/progettopcs2025/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable GeodesicPolyhedra"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/GeodesicPolyhedra.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -159,6 +175,6 @@ CMakeFiles/GeodesicPolyhedra.dir/clean:
 .PHONY : CMakeFiles/GeodesicPolyhedra.dir/clean
 
 CMakeFiles/GeodesicPolyhedra.dir/depend:
-	cd /home/appuser/Data/Project/ProgettoPCS2025/Debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/appuser/Data/Project/ProgettoPCS2025 /home/appuser/Data/Project/ProgettoPCS2025 /home/appuser/Data/Project/ProgettoPCS2025/Debug /home/appuser/Data/Project/ProgettoPCS2025/Debug /home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles/GeodesicPolyhedra.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/appuser/Data/project/progettopcs2025/debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/appuser/Data/Project/ProgettoPCS2025 /home/appuser/Data/Project/ProgettoPCS2025 /home/appuser/Data/project/progettopcs2025/debug /home/appuser/Data/project/progettopcs2025/debug /home/appuser/Data/project/progettopcs2025/debug/CMakeFiles/GeodesicPolyhedra.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/GeodesicPolyhedra.dir/depend
 

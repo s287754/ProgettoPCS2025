@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/appuser/Data/Project/ProgettoPCS2025/ExportParaview/UCDUtilities.cpp" "CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o" "gcc" "CMakeFiles/GeodesicPolyhedra.dir/ExportParaview/UCDUtilities.cpp.o.d"
   "/home/appuser/Data/Project/ProgettoPCS2025/main.cpp" "CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o" "gcc" "CMakeFiles/GeodesicPolyhedra.dir/main.cpp.o.d"
   "/home/appuser/Data/Project/ProgettoPCS2025/src/DataGenerator.cpp" "CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o" "gcc" "CMakeFiles/GeodesicPolyhedra.dir/src/DataGenerator.cpp.o.d"
+  "/home/appuser/Data/Project/ProgettoPCS2025/src/Geometry.cpp" "CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.o" "gcc" "CMakeFiles/GeodesicPolyhedra.dir/src/Geometry.cpp.o.d"
   "/home/appuser/Data/Project/ProgettoPCS2025/src/Utils.cpp" "CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o" "gcc" "CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o.d"
   )
 

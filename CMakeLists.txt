@@ -42,6 +42,12 @@ list(APPEND GeodesicPolyhedra_SOURCES ${GeodesicPolyhedra_sources})
 list(APPEND GeodesicPolyhedra_HEADERS ${GeodesicPolyhedra_headers})
 list(APPEND GeodesicPolyhedra_INCLUDE ${GeodesicPolyhedra_includes})
 
+add_subdirectory(src_test)
+
+list(APPEND GeodesicPolyhedra_TEST_SOURCES ${src_test_sources})
+list(APPEND GeodesicPolyhedra_TEST_HEADERS ${src_test_headers})
+list(APPEND GeodesicPolyhedra_TEST_INCLUDE ${src_test_includes})
+
 add_subdirectory(ExportParaview)
 
 list(APPEND GeodesicPolyhedra_SOURCES ${src_paraview_sources})
@@ -63,3 +69,13 @@ target_link_libraries(${PROJECT_NAME} ${GeodesicPolyhedra_LINKED_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${GeodesicPolyhedra_INCLUDE})
 target_compile_options(${PROJECT_NAME} PUBLIC -fPIC)
 
+add_executable(${PROJECT_NAME}_TEST
+    main_test.cpp
+    ${GeodesicPolyhedra_SOURCES}
+    ${GeodesicPolyhedra_HEADERS}
+    ${GeodesicPolyhedra_TEST_SOURCES}
+    ${GeodesicPolyhedra_TEST_HEADERS})
+
+target_link_libraries(${PROJECT_NAME}_TEST ${GeodesicPolyhedra_LINKED_LIBRARIES})
+target_include_directories(${PROJECT_NAME}_TEST PRIVATE ${GeodesicPolyhedra_INCLUDE} ${GeodesicPolyhedra_TEST_INCLUDE})
+target_compile_options(${PROJECT_NAME}_TEST PUBLIC -fPIC)

@@ -57,25 +57,30 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/appuser/Data/Project/ProgettoPCS2025
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/appuser/Data/Project/ProgettoPCS2025/Debug
+CMAKE_BINARY_DIR = /home/appuser/Data/project/progettopcs2025/debug
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
 all: CMakeFiles/GeodesicPolyhedra.dir/all
+all: CMakeFiles/GeodesicPolyhedra_TEST.dir/all
 all: src/all
+all: src_test/all
 all: ExportParaview/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: src/preinstall
+preinstall: src_test/preinstall
 preinstall: ExportParaview/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/GeodesicPolyhedra.dir/clean
+clean: CMakeFiles/GeodesicPolyhedra_TEST.dir/clean
 clean: src/clean
+clean: src_test/clean
 clean: ExportParaview/clean
 .PHONY : clean
 
@@ -110,20 +115,35 @@ src/clean:
 .PHONY : src/clean
 
 #=============================================================================
+# Directory level rules for directory src_test
+
+# Recursive "all" directory target.
+src_test/all:
+.PHONY : src_test/all
+
+# Recursive "preinstall" directory target.
+src_test/preinstall:
+.PHONY : src_test/preinstall
+
+# Recursive "clean" directory target.
+src_test/clean:
+.PHONY : src_test/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/GeodesicPolyhedra.dir
 
 # All Build rule for target.
 CMakeFiles/GeodesicPolyhedra.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GeodesicPolyhedra.dir/build.make CMakeFiles/GeodesicPolyhedra.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GeodesicPolyhedra.dir/build.make CMakeFiles/GeodesicPolyhedra.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles --progress-num=1,2,3,4,5 "Built target GeodesicPolyhedra"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/appuser/Data/project/progettopcs2025/debug/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target GeodesicPolyhedra"
 .PHONY : CMakeFiles/GeodesicPolyhedra.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/GeodesicPolyhedra.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/appuser/Data/project/progettopcs2025/debug/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/GeodesicPolyhedra.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/appuser/Data/Project/ProgettoPCS2025/Debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/appuser/Data/project/progettopcs2025/debug/CMakeFiles 0
 .PHONY : CMakeFiles/GeodesicPolyhedra.dir/rule
 
 # Convenience name for target.
@@ -134,6 +154,32 @@ GeodesicPolyhedra: CMakeFiles/GeodesicPolyhedra.dir/rule
 CMakeFiles/GeodesicPolyhedra.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GeodesicPolyhedra.dir/build.make CMakeFiles/GeodesicPolyhedra.dir/clean
 .PHONY : CMakeFiles/GeodesicPolyhedra.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/GeodesicPolyhedra_TEST.dir
+
+# All Build rule for target.
+CMakeFiles/GeodesicPolyhedra_TEST.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GeodesicPolyhedra_TEST.dir/build.make CMakeFiles/GeodesicPolyhedra_TEST.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GeodesicPolyhedra_TEST.dir/build.make CMakeFiles/GeodesicPolyhedra_TEST.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/appuser/Data/project/progettopcs2025/debug/CMakeFiles --progress-num=7,8,9,10,11,12 "Built target GeodesicPolyhedra_TEST"
+.PHONY : CMakeFiles/GeodesicPolyhedra_TEST.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/GeodesicPolyhedra_TEST.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/appuser/Data/project/progettopcs2025/debug/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/GeodesicPolyhedra_TEST.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/appuser/Data/project/progettopcs2025/debug/CMakeFiles 0
+.PHONY : CMakeFiles/GeodesicPolyhedra_TEST.dir/rule
+
+# Convenience name for target.
+GeodesicPolyhedra_TEST: CMakeFiles/GeodesicPolyhedra_TEST.dir/rule
+.PHONY : GeodesicPolyhedra_TEST
+
+# clean rule for target.
+CMakeFiles/GeodesicPolyhedra_TEST.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GeodesicPolyhedra_TEST.dir/build.make CMakeFiles/GeodesicPolyhedra_TEST.dir/clean
+.PHONY : CMakeFiles/GeodesicPolyhedra_TEST.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

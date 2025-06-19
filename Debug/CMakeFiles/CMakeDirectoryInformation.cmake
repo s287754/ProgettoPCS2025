@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/home/appuser/Data/Project/ProgettoPCS2025")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/appuser/Data/Project/ProgettoPCS2025/Debug")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/appuser/Data/project/progettopcs2025/debug")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)
