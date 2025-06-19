@@ -2,6 +2,7 @@
 #include <fstream>
 #include <set>
 #include <algorithm>
+#include <unordered_set>
 
 #include "Utils.hpp"
 #include "Geometry.hpp"
@@ -89,7 +90,7 @@ Polyhedral DualPolygon (const Polyhedral& polygon)
 	
 	set<pair<unsigned int,unsigned int>> addedEdges;
 	
-	for (unsigned int i =0; i < polygon.NumCell2Ds; i ++)
+	for (unsigned int i = 0; i < polygon.NumCell2Ds; i ++)
 	{
 		const vector<unsigned int>& edgesF = polygon.Cell2DsEdges[i];
 		
@@ -118,69 +119,92 @@ Polyhedral DualPolygon (const Polyhedral& polygon)
 	
 	dual.NumCell2Ds = polygon.NumCell0Ds;
 	
-	for (unsigned int v = 0; v < dual.NumCell2Ds; v++)
+	for (unsigned int v = 0; v < polygon.NumCell0Ds; v++)
 	{
-		vector<unsigned int> dualFaceVertices;
+		vector<unsigned int> adjacentFaces;
 		
-		for (unsigned int f = 0; f <  dual.NumCell0Ds; f++ )
+		for (unsigned int f = 0; f < polygon.NumCell2Ds; f++ )
 		{
 			const auto& faceVertices = polygon.Cell2DsVertices[f];
 			if (find(faceVertices.begin(),faceVertices.end(),v) != faceVertices.end())
-				dualFaceVertices.push_back(f);
+				adjacentFaces.push_back(f);
 		}
 		
-		dual.Cell2DsVertices.push_back(dualFaceVertices);
+		vector<unsigned int> ordered;
+		unordered_set<unsigned int> visited;
+		ordered.push_back(adjacentFaces[0]);
+		visited.insert(adjacentFaces[0]);
+		
+		while(ordered.size() < adjacentFaces.size())
+		{
+			unsigned int last = ordered.back();
+			const auto& edgesF = polygon.Cell2DsEdges[last];
+			bool found = false;
+			for(unsigned int f : adjacentFaces)
+			{
+				if (visited.count(f)) 
+					continue;
+				const auto& edgesG = polygon.Cell2DsEdges[f];
+				for (unsigned int eF : edgesF)
+				{
+					if (find(edgesG.begin(),edgesG.end(), eF) != edgesG.end())
+					{
+						ordered.push_back(f);
+						visited.insert(f);
+						found = true;
+						break;
+					}
+				}
+				if (found)
+					break;
+			}
+			if (!found)
+				break;
+		}
+		
+		dual.Cell2DsVertices.push_back(ordered);
 		dual.Cell2DsId.push_back(v);
 	}
-
-	/*Questa parte devo capirla:
-	map<pair<unsigned int, unsigned int>, unsigned int> dualEdgeMap;
-	for (unsigned int e = 0; e < dual.NumCell1Ds; ++e)
+	/*cout << "Cell2DsVertices:\n";
+	for (unsigned int i = 0; i < dual.Cell2DsVertices.size(); i++)
 	{
-		unsigned int a = dual.Cell1DsVertices(e, 0);
-		unsigned int b = dual.Cell1DsVertices(e, 1);
-		dualEdgeMap[{min(a, b), max(a, b)}] = e;
-	}
-
-	// 4. Crea le facce del duale: ogni vertice del primario corrisponde a una faccia del duale
-	dual.NumCell2Ds = polygon.NumCell0Ds;
-	for (unsigned int v = 0; v < polygon.NumCell0Ds; v++)
-	{
-		vector<unsigned int> dualFaceVertices;
-
-		// Trova tutte le facce del primario che contengono il vertice v
-		for (unsigned int f = 0; f < polygon.NumCell2Ds; ++f)
-		{
-			const auto& faceVertices = polygon.Cell2DsVertices[f];
-			if (find(faceVertices.begin(), faceVertices.end(), v) != faceVertices.end())
-			{
-				dualFaceVertices.push_back(f); // f è il baricentro = vertice del duale
-			}
-		}
-
-		dual.Cell2DsVertices.push_back(dualFaceVertices);
-		dual.Cell2DsId.push_back(v);
-
-		// Ora costruiamo anche gli spigoli della faccia (tra baricentri adiacenti)
-		vector<unsigned int> dualFaceEdges;
-		for (size_t i = 0; i < dualFaceVertices.size(); ++i)
-		{
-			unsigned int a = dualFaceVertices[i];
-			unsigned int b = dualFaceVertices[(i + 1) % dualFaceVertices.size()]; // ciclico
-
-			auto it = dualEdgeMap.find({min(a, b), max(a, b)});
-			if (it != dualEdgeMap.end())
-			{
-				dualFaceEdges.push_back(it->second);
-			}
-			else
-			{
-				cerr << "Warning: dual edge non trovato tra baricentri " << a << " e " << b << endl;
-			}
-		}
-
-		dual.Cell2DsEdges.push_back(dualFaceEdges);
+		for (unsigned int v : dual.Cell2DsVertices[i])
+			cout << v << " ";
+		cout << "\n";
 	}*/
+	
+	for (unsigned int f = 0; f < dual.Cell2DsVertices.size() ; f++)
+	{
+		
+		vector<unsigned int>& face_vertices = dual.Cell2DsVertices[f];
+		vector<unsigned int> face_edges;
+		for (unsigned int i = 0; i < face_vertices.size(); i++)
+		{
+			unsigned int vert_1 = face_vertices[i];
+			unsigned int vert_2 = face_vertices[(i+1)%face_vertices.size()];
+			
+			for (unsigned int k = 0; k < dual.Cell1DsVertices.rows(); k++)
+			{
+				unsigned int coord_origin = dual.Cell1DsVertices(k,0);
+				unsigned int coord_end = dual.Cell1DsVertices(k,1);
+				if ((coord_origin == vert_1 && coord_end == vert_2) || (coord_origin == vert_2 && coord_end == vert_1))
+				{
+					face_edges.push_back(k);
+					break;
+				}
+			}
+			
+		}
+		dual.Cell2DsEdges.push_back(face_edges);
+	}
+	/*cout << "Cell2DsEdges:\n";
+	for (unsigned int i = 0; i < dual.Cell2DsEdges.size(); i++)
+	{
+		for (unsigned int e : dual.Cell2DsEdges[i])
+			cout << e << " ";
+		cout << "\n";
+	}*/
+
 	
     dual.NumCell3Ds = 1;
     dual.Cell3DsId.push_back(0);
@@ -214,8 +238,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	vector<vector<vector<unsigned int>>> grids(poly.NumCell2Ds);
 	
 	unsigned int ID = 0;
-	unsigned int pos = 0;
-	
+
 	vector<Vector3d> ordered_vertices;
 	map<Vector3d,unsigned int, Vector3dCompare> vertices_id;
 	
@@ -223,23 +246,23 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	{
 		vector<unsigned int> face = poly.Cell2DsVertices[f]; //Es: {0,1,2}
 		vector<Vector3d> face_vertices; 
-		vector<vector<unsigned int>> grid(c+1); //griglia in cui salvo gli id dei miei nuovi vertici
+		vector<vector<unsigned int>> grid(max(b,c)+1); //griglia in cui salvo gli id dei miei nuovi vertici
 		
-		for (unsigned int i = 0; i < c + 1; i++)
+		for (unsigned int i = 0; i < max(b,c) + 1; i++)
 		{
-			grid[i].resize(c - i + 1);
+			grid[i].resize(max(b,c) - i + 1);
 		}
 		
 		Vector3d A = original_coords.row(face[0]).transpose();
 		Vector3d B = original_coords.row(face[1]).transpose();
 		Vector3d C = original_coords.row(face[2]).transpose();
 		
-		for (unsigned int i = 0; i < c + 1; i ++)
+		for (unsigned int i = 0; i < max(b,c) + 1; i ++)
 		{
-			for (unsigned int j = 0; j < c - i + 1; j++)
+			for (unsigned int j = 0; j < max(b,c) - i + 1; j++)
 			{
-				unsigned int k = c - i -j;
-				Vector3d P = (i * A + j * B + k * C) / double(c); //Coordinate baricentriche
+				unsigned int k = max(b,c) - i - j;
+				Vector3d P = (i * A + j * B + k * C) / double(max(b,c)); //Coordinate baricentriche
 				P.normalize();
 				face_vertices.push_back(P);
 				
@@ -259,7 +282,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 		grids[f] = grid;
 		SubdividedVertices[f] = face_vertices;
 		
-		cout << "Grid per la faccia " << f << ":\n";
+		/*cout << "Grid per la faccia " << f << ":\n";
 		for (unsigned int i = 0; i < grid.size(); ++i) {
 			// Aggiungi spazi per farla sembrare triangolare
 			cout << string(i * 2, ' ');  // opzionale, solo per estetica
@@ -268,7 +291,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 				cout << "[" << i << "," << j << "]:" << grid[i][j] << " ";
 			}
 			cout << "\n";
-		}	
+		}	*/
 	}
 
 		
@@ -334,7 +357,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 			v++;
 	}
 
-
+	//cout << poly.Cell1DsVertices << endl;
 	poly.Cell1DsId.clear();
 	
 	for (unsigned int i = 0; i < edges.size(); i++)
@@ -372,6 +395,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	poly.NumVertices = 3;
 	poly.NumEdges = 3;
 	unsigned int faceID = 0;
+	poly.Cell2DsVertices.clear();
 	for (unsigned int f = 0; f < poly.NumCell2Ds; f++)
 	{
 		const auto& grid = grids[f];
@@ -386,9 +410,8 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 					unsigned int B = grid[i+1][j];
 					unsigned int C = grid[i][j+1];
 					poly.Cell2DsVertices.push_back({A,B,C});
-					
-					file_c2 << faceID++ << "\t" << poly.NumVertices << "\t\t" << poly.NumEdges << "\t\t" << A << " " << B << " " << C << "\t-\n";
 				}
+				
 				if (j+1 < grid[i+1].size())
 				{
 					unsigned int A = grid[i][j+1];
@@ -396,34 +419,59 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 					unsigned int C = grid[i+1][j+1];
 					poly.Cell2DsVertices.push_back({A,B,C});
 					poly.Cell2DsEdges.push_back({0,0,0});
-					file_c2 << faceID++ << "\t3\t\t3\t\t" << A << " " << B << " " << C << "\t-\n";
+					
 				}
 			}
 		}
 	}
 	
+	poly.Cell2DsEdges.clear();
+	
 	for (unsigned int f = 0; f < poly.Cell2DsVertices.size() ; f++)
 	{
 		
-		vector<unsigned int> face_vertices = poly.Cell2DsVertices[f];
-		
+		vector<unsigned int>& face_vertices = poly.Cell2DsVertices[f];
+		vector<unsigned int> face_edges;
 		for (unsigned int i = 0; i < face_vertices.size(); i++)
 		{
-			unsigned int vert_1 = face[i];
-			unsigned int vert_2 = face[(i+1)%face_vertices.size()];
+			unsigned int vert_1 = face_vertices[i];
+			unsigned int vert_2 = face_vertices[(i+1)%face_vertices.size()];
 			
-			for (unsigned int k = 0; k < poly.Cell1DsVertices.size(); k++=
-			{}
+			for (unsigned int k = 0; k < poly.Cell1DsVertices.rows(); k++)
+			{
+				unsigned int coord_origin = poly.Cell1DsVertices(k,0);
+				unsigned int coord_end = poly.Cell1DsVertices(k,1);
+				if ((coord_origin == vert_1 && coord_end == vert_2) || (coord_origin == vert_2 && coord_end == vert_1))
+				{
+					face_edges.push_back(k);
+					break;
+				}
+			}
+			
 		}
+		poly.Cell2DsEdges.push_back(face_edges);
 	}
+
+	for (unsigned int faceID = 0; faceID < poly.Cell2DsVertices.size(); faceID ++ )
+	{
+		const auto& vertices = poly.Cell2DsVertices[faceID];
+		const auto& edges = poly.Cell2DsEdges[faceID];
 		
-		
-		
-		
+		file_c2 << faceID << "\t" << poly.NumVertices << "\t\t" << poly.NumEdges << "\t\t" ;
+		for (const auto& v : vertices)
+			file_c2 << v << " ";
+		file_c2 << "\t\t";
+		for (const auto& e : edges)
+			file_c2 << e << " ";
+		file_c2 << "\t" << "\n";
+	}
+	
 	poly.NumCell2Ds = poly.Cell2DsVertices.size();
 	
 	file_c2.close();
-						
+		
+
+	
 	return true;	
 }
 

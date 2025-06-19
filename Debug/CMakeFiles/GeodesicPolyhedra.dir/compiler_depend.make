@@ -1931,6 +1931,8 @@ CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o: /home/appuser/Data/Project/Pro
   /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/vector.tcc \
   /usr/include/c++/11/pstl/execution_defs.h \
+  /usr/include/c++/11/unordered_set \
+  /usr/include/c++/11/bits/unordered_set.h \
   /home/appuser/Data/Project/ProgettoPCS2025/src/Utils.hpp \
   /home/appuser/Data/Project/ProgettoPCS2025/src/Geometry.hpp \
   /usr/include/eigen3/Eigen/Eigen \
@@ -2351,6 +2353,8 @@ CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o: /home/appuser/Data/Project/Pro
 /usr/include/c++/11/utility:
 
 /usr/include/c++/11/ios:
+
+/usr/include/c++/11/bits/unordered_set.h:
 
 /usr/include/c++/11/bits/stl_vector.h:
 
@@ -3147,6 +3151,8 @@ CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o: /home/appuser/Data/Project/Pro
 /usr/include/c++/11/bits/stl_tree.h:
 
 /usr/include/x86_64-linux-gnu/sys/syscall.h:
+
+/usr/include/c++/11/unordered_set:
 
 /usr/include/eigen3/Eigen/src/Core/ProductEvaluators.h:
 
