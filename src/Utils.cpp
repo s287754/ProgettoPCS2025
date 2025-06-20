@@ -165,13 +165,6 @@ Polyhedral DualPolygon (const Polyhedral& polygon)
 		dual.Cell2DsVertices.push_back(ordered);
 		dual.Cell2DsId.push_back(v);
 	}
-	/*cout << "Cell2DsVertices:\n";
-	for (unsigned int i = 0; i < dual.Cell2DsVertices.size(); i++)
-	{
-		for (unsigned int v : dual.Cell2DsVertices[i])
-			cout << v << " ";
-		cout << "\n";
-	}*/
 	
 	for (unsigned int f = 0; f < dual.Cell2DsVertices.size() ; f++)
 	{
@@ -197,14 +190,6 @@ Polyhedral DualPolygon (const Polyhedral& polygon)
 		}
 		dual.Cell2DsEdges.push_back(face_edges);
 	}
-	/*cout << "Cell2DsEdges:\n";
-	for (unsigned int i = 0; i < dual.Cell2DsEdges.size(); i++)
-	{
-		for (unsigned int e : dual.Cell2DsEdges[i])
-			cout << e << " ";
-		cout << "\n";
-	}*/
-
 	
     dual.NumCell3Ds = 1;
     dual.Cell3DsId.push_back(0);
@@ -228,7 +213,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 		return false;
 	}
 	
-	file_c0 << "ID\tx\ty\tz\n" ;
+	file_c0 << "ID\tx\t\ty\t\tz\n" ;
 	
 	poly.Cell0DsId.clear();
 
@@ -281,20 +266,9 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 		
 		grids[f] = grid;
 		SubdividedVertices[f] = face_vertices;
-		
-		/*cout << "Grid per la faccia " << f << ":\n";
-		for (unsigned int i = 0; i < grid.size(); ++i) {
-			// Aggiungi spazi per farla sembrare triangolare
-			cout << string(i * 2, ' ');  // opzionale, solo per estetica
 
-			for (unsigned int j = 0; j < grid[i].size(); ++j) {
-				cout << "[" << i << "," << j << "]:" << grid[i][j] << " ";
-			}
-			cout << "\n";
-		}	*/
 	}
-
-		
+	
 	poly.Cell0DsCoordinates.resize(ordered_vertices.size(),3);
 		
 	for (size_t i = 0; i < ordered_vertices.size() ; i++) 
@@ -305,6 +279,8 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 		file_c0 << i << "\t" << v(0) << "\t" << v(1) << "\t" << v(2) << "\n";
 		
 	}
+	
+	poly.NumCell0Ds = poly.Cell0DsCoordinates.rows();
 
 	file_c0.close();
 
@@ -357,28 +333,13 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 			v++;
 	}
 
-	//cout << poly.Cell1DsVertices << endl;
 	poly.Cell1DsId.clear();
 	
 	for (unsigned int i = 0; i < edges.size(); i++)
 		poly.Cell1DsId.push_back(i); 
-	
-	/*for (size_t i = 0; i < poly.Cell1DsId.size(); i++) {
-    cout << "ID: " << poly.Cell1DsId[i] << " poly.Cell1DsVertices row: " << i << "\n" 
-         << poly.Cell1DsVertices.row(i) << endl;
-}*/
-	
-	poly.Cell1DsExtrema.resize(edges.size(),2);
-	
-	unsigned int i = 0;
-	//cout << "Num edges: " << edges.size() << endl;
-	for (const auto& [a,b] : edges)		
-	{
-		poly.Cell1DsExtrema(i,0) = a;
-		poly.Cell1DsExtrema(i,1) = b;
-		i++;
-	}
-	poly.NumCell1Ds = poly.Cell1DsExtrema.rows();
+
+	for (unsigned int i = 0; i < poly.NumCell1Ds; i++)
+		poly.MarkerCell1Ds[1].push_back(i);
 	
 	file_c1.close();
 
@@ -396,6 +357,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	poly.NumEdges = 3;
 	unsigned int faceID = 0;
 	poly.Cell2DsVertices.clear();
+	
 	for (unsigned int f = 0; f < poly.NumCell2Ds; f++)
 	{
 		const auto& grid = grids[f];
@@ -418,7 +380,6 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 					unsigned int B = grid[i+1][j];
 					unsigned int C = grid[i+1][j+1];
 					poly.Cell2DsVertices.push_back({A,B,C});
-					poly.Cell2DsEdges.push_back({0,0,0});
 					
 				}
 			}
@@ -469,9 +430,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	poly.NumCell2Ds = poly.Cell2DsVertices.size();
 	
 	file_c2.close();
-		
 
-	
 	return true;	
 }
 
@@ -499,8 +458,10 @@ void exportToUCD(const Polyhedral &polygon, const std::string& basename)
         pt_props[0].Data = markers.data();
 
         utilities.ExportPoints(basename + "_points.inp",
-                               polygon.Cell0DsCoordinates,
+                               polygon.Cell0DsCoordinates.transpose(),
                                pt_props);
+							   
+	   
     }
 
     {
@@ -519,8 +480,8 @@ void exportToUCD(const Polyhedral &polygon, const std::string& basename)
         e_props[0].Data = m2.data();
 
         utilities.ExportSegments(basename + "_edges.inp",
-                                 polygon.Cell0DsCoordinates,
-                                 polygon.Cell1DsExtrema,
+                                 polygon.Cell0DsCoordinates.transpose(),
+                                 polygon.Cell1DsVertices.transpose(),
                                  {},
                                  e_props);
     }

@@ -12,8 +12,6 @@ int main () {
 	cout << "Inserisci al minimo una quadrupla o al massimo una sestupla di valori\n" << endl;
 	cout << "Gli ultimi due saranno gli id dei vertici tra cui calcolare il cammino minimo\nPremi invio per terminare:\n" << endl;
 	
-	
-	
 	vector <unsigned int> input;
 	string riga;
 	
@@ -48,41 +46,43 @@ int main () {
 	unsigned int q = input[1];
 	unsigned int b = input[2];
 	unsigned int c = input[3];
-	Polyhedral* polyPtr = nullptr;
+
+	Polyhedral poly;
+
 	string name;
 	
 	if (q == 3)
 	{
-		polyPtr = &tetrahedron;
-		name = "Tetrahedron";
+		poly = tetrahedron;
+		name = "Tetraedro";
 	}
 	else if (q == 4)
 	{
-		static Polyhedral octahedron = DualPolygon(cube);
-		polyPtr = &octahedron;
-		name = "Octahedron";
+		Polyhedral octahedron = DualPolygon(cube);
+		poly = octahedron;
+		name = "Ottaedro";
 	}
 	else if (q == 5)
 	{
-		polyPtr = &icosahedron;
-		name = "Icosahedron";
+		poly = icosahedron;
+		name = "Icosaedro";
 	}
 	else 
 	{
 		cout << "Valore di q non valido" << endl;
 		return 1;
 	}
+
 	
-	GeodesicPolyhedron(p, q, b, c, tetrahedron); //Impara
-	
-	
-	if (!GeodesicPolyhedron(p, q, b, c, tetrahedron))
+	if (!GeodesicPolyhedron(p, q, b, c, poly))
 	{
 		cout << "Errore nell'input, p è diverso da tre ma uguale a " << p << endl;
 		return false;
 	}
 	
 	cout << "Ho creato il poliedro geodetico del " << name << endl ;
+	
+	exportToUCD (poly, name);
 
 	return 0;
 }

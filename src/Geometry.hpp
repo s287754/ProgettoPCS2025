@@ -21,9 +21,7 @@ namespace PolyhedralLibrary {
 		vector<unsigned int> Cell1DsId = {};
 		map<unsigned int,vector<unsigned int>> MarkerCell1Ds = {};
 		MatrixXi Cell1DsVertices = {}; /*ID vertici di origine e di fine n=numero di lati+1; m=3(2 IDOrigin/IDEnd + 1)*/
-		MatrixXi Cell1DsExtrema = {}; /* per i segmenti */
-		
-		
+
 		unsigned int NumCell2Ds = 0;
 		unsigned int NumVertices = 0;
 		unsigned int NumEdges = 0;

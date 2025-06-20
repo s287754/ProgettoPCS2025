@@ -32,6 +32,7 @@ void UCDUtilities::ExportPoints(const std::string& filePath,
                                 const std::vector<UCDProperty<double>>& points_properties,
                                 const Eigen::VectorXi& materials) const
 {
+	
     ExportFormats format = ExportFormats::Ascii;
 
     switch (format)

@@ -15,16 +15,13 @@ bool createTetrahedron (Polyhedral& polygon)
 	
 	for (unsigned int i = 0; i < polygon.NumCell0Ds; i++)
 		polygon.Cell0DsId.push_back(i);
+	
 	const double x = +1.0/sqrt(3);
 	polygon.Cell0DsCoordinates.resize(polygon.NumCell0Ds,3);
 	polygon.Cell0DsCoordinates << +x,+x,+x, /*A: id 0*/ 
 								  -x,-x,+x, /*B: id 1*/ 
 								  -x,+x,-x, /*C: id 2*/ 
 								  +x,-x,-x; /*D: id 3*/ 
-	/*polygon.Cell0DsCoordinates << 1,1,1,
-								 -1,-1,1,
-								 -1,1,-1,
-								  1,-1,-1;*/
 	
 	for(unsigned int i = 0; i < polygon.NumCell0Ds; ++i)
 		polygon.MarkerCell0Ds[1].push_back(i);
@@ -42,18 +39,11 @@ bool createTetrahedron (Polyhedral& polygon)
 							   1,3, /*BD: id 4*/
 							   2,3; /*CD: id 5*/
 							   
-   polygon.Cell1DsExtrema.resize(2, polygon.NumCell1Ds);
+  
    
    for(unsigned int i = 0; i < polygon.NumCell1Ds; ++i)
 		polygon.MarkerCell1Ds[1].push_back(i);
-   
-	for(unsigned int e = 0; e < polygon.NumCell1Ds; ++e)
-	{
-		polygon.Cell1DsExtrema(0,e) = polygon.Cell1DsVertices(e,0);
-		polygon.Cell1DsExtrema(1,e) = polygon.Cell1DsVertices(e,1);
-	}
-	
-	
+
 	polygon.NumCell2Ds = 4;
 	
 	for (unsigned int i = 0; i < polygon.NumCell2Ds; i++)
