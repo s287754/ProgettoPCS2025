@@ -46,6 +46,8 @@ int main () {
 	unsigned int q = input[1];
 	unsigned int b = input[2];
 	unsigned int c = input[3];
+	unsigned int start = input[4];
+	unsigned int end = input[5];
 
 	Polyhedral poly;
 
@@ -81,6 +83,16 @@ int main () {
 	}
 	
 	cout << "Ho creato il poliedro geodetico del " << name << endl ;
+	
+	vector<unsigned int> path;
+	if (shortestPath(poly, start, end, path)) {
+		cout << "Cammino minimo trovato:\n";
+		for (int idx : path)
+			cout << idx << " ";
+		cout << std::endl;
+	} else {
+		cout << "Nessun cammino trovato tra " << start << " e " << end << std::endl;
+	}
 	
 	exportToUCD (poly, name);
 

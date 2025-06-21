@@ -15,6 +15,7 @@ namespace PolyhedralLibrary
 	Polyhedral DualPolygon (const Polyhedral& polygon);
 	
 	bool GeodesicPolyhedron(const unsigned int& p,const unsigned int& q,const unsigned int& b,const unsigned int& c, Polyhedral& poly);
+	bool shortestPath(Polyhedral& polygon,unsigned int start, unsigned int end, vector<unsigned int>& path);
 	void exportToUCD(const Polyhedral &polygon, const string& basename);
 	
 	struct Vector3dCompare {

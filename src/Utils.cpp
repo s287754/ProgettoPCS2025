@@ -3,6 +3,8 @@
 #include <set>
 #include <algorithm>
 #include <unordered_set>
+#include <vector>
+#include <queue>
 
 #include "Utils.hpp"
 #include "Geometry.hpp"
@@ -54,6 +56,7 @@ bool checkOrient(const Polyhedral& polygon)
 			{
 				cout << "Errore nella faccia " << i << ": lato " << currentEdgeId
 				<< " termina in " << currentEdgeEnd << ", ma lato " << nextEdgeId << " inizia in " << nextEdgeStart << endl;
+				return false;
 			}
 		}
 		
@@ -355,7 +358,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	
 	poly.NumVertices = 3;
 	poly.NumEdges = 3;
-	unsigned int faceID = 0;
+	
 	poly.Cell2DsVertices.clear();
 	
 	for (unsigned int f = 0; f < poly.NumCell2Ds; f++)
@@ -430,11 +433,78 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	poly.NumCell2Ds = poly.Cell2DsVertices.size();
 	
 	file_c2.close();
+	
+	ofstream file_c3("Cell3Ds.txt");
+	
+	if (file_c3.fail())
+	{
+		cout << "Errore nell'apertura del file" << endl;
+		return false;
+	}
+	
+	
 
 	return true;	
 }
 
-void exportToUCD(const Polyhedral &polygon, const std::string& basename)
+bool shortestPath(Polyhedral& polygon,unsigned int start, unsigned int end, vector<unsigned int>& path)
+{
+	int n = polygon.NumCell0Ds;
+	vector<bool> visited(n,false);
+	vector<unsigned int> predecessor(n,-1);
+	
+	vector<vector<unsigned int>> adj(n);
+	
+	for (unsigned int i = 0; i < polygon.Cell1DsVertices.rows(); i++)
+	{
+		unsigned int u = polygon.Cell1DsVertices(i,0);
+		unsigned int v = polygon.Cell1DsVertices(i,1);
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+	
+	queue<unsigned int> Q;
+	Q.push(start);
+	visited[start] = true;
+
+	Q.push(start);
+	while(!Q.empty())
+	{
+		unsigned int u = Q.front();
+		Q.pop();
+		
+		for (unsigned int w : adj[u])
+		{
+			if (!visited[w])
+			{
+				visited[w] = true;
+				predecessor[w] = u;
+				Q.push(w);
+				if (w == end)
+					break;
+			}
+		}
+	}		
+	
+	if (!visited[end])
+		return false;
+	
+	for (unsigned int at = end; at != -1; at = predecessor[at])
+	{
+		path.push_back(at);
+	}
+	
+	reverse(path.end(),path.begin());
+	
+	std::cout << "Shortest path: ";
+	for (int idx : path) {
+    std::cout << idx << " ";
+	}
+	std::cout << std::endl;
+	
+	return true;
+}
+void exportToUCD(const Polyhedral &polygon, const string& basename)
 {
 	
 	/// Per visualizzare online le mesh:

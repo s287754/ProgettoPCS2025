@@ -61,10 +61,6 @@ add_executable(${PROJECT_NAME}
       ${GeodesicPolyhedra_SOURCES}
       ${GeodesicPolyhedra_HEADERS})
 
-
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Polygon/Cell0Ds.csv ${CMAKE_CURRENT_SOURCE_DIR}/Polygon/Cell1Ds.csv ${CMAKE_CURRENT_SOURCE_DIR}/Polygon/Cell2Ds.csv
-      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
 target_link_libraries(${PROJECT_NAME} ${GeodesicPolyhedra_LINKED_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${GeodesicPolyhedra_INCLUDE})
 target_compile_options(${PROJECT_NAME} PUBLIC -fPIC)

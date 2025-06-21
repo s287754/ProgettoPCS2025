@@ -1,4 +1,5 @@
-list(APPEND src_test_headers ${CMAKE_CURRENT_SOURCE_DIR}/test_datagenerator.hpp)
+list(APPEND src_test_headers ${CMAKE_CURRENT_SOURCE_DIR}/test_geometry.hpp)
+list(APPEND src_test_headers ${CMAKE_CURRENT_SOURCE_DIR}/test_utils.hpp)
 
 list(APPEND src_test_includes ${CMAKE_CURRENT_SOURCE_DIR})
 

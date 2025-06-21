@@ -1933,6 +1933,11 @@ CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o: /home/appuser/Data/Project/Pro
   /usr/include/c++/11/pstl/execution_defs.h \
   /usr/include/c++/11/unordered_set \
   /usr/include/c++/11/bits/unordered_set.h \
+  /usr/include/c++/11/queue \
+  /usr/include/c++/11/deque \
+  /usr/include/c++/11/bits/stl_deque.h \
+  /usr/include/c++/11/bits/deque.tcc \
+  /usr/include/c++/11/bits/stl_queue.h \
   /home/appuser/Data/Project/ProgettoPCS2025/src/Utils.hpp \
   /home/appuser/Data/Project/ProgettoPCS2025/src/Geometry.hpp \
   /usr/include/eigen3/Eigen/Eigen \
@@ -2275,6 +2280,14 @@ CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o: /home/appuser/Data/Project/Pro
   /usr/include/c++/11/bits/list.tcc \
   /home/appuser/Data/Project/ProgettoPCS2025/ExportParaview/UCDUtilities.hpp
 
+
+/usr/include/c++/11/bits/deque.tcc:
+
+/usr/include/c++/11/bits/stl_deque.h:
+
+/usr/include/c++/11/deque:
+
+/usr/include/c++/11/queue:
 
 /usr/include/c++/11/bits/stl_multiset.h:
 
@@ -3321,6 +3334,8 @@ CMakeFiles/GeodesicPolyhedra.dir/src/Utils.cpp.o: /home/appuser/Data/Project/Pro
 /usr/include/eigen3/Eigen/src/SparseCore/SparseMap.h:
 
 /usr/include/eigen3/Eigen/src/SparseCore/SparseVector.h:
+
+/usr/include/c++/11/bits/stl_queue.h:
 
 /usr/include/eigen3/Eigen/src/Core/products/TriangularSolverMatrix.h:
 
