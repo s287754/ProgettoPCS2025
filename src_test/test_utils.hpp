@@ -4,110 +4,110 @@
 
 using namespace PolyhedralLibrary;
 
-TEST(UtilsTest,DualT)
+TEST(orientTest, RightOrientation)
 {
-	Polyhedral polygon;
-	createTetrahedron(polygon);
-	
-	Polyhedral dual = DualPolygon(polygon);
-	
-	EXPECT_EQ(dual.NumCell0Ds, polygon.NumCell2Ds);
-	EXPECT_EQ(polygon.NumCell0Ds, dual.NumCell2Ds);
-	EXPECT_EQ(dual.NumCell3Ds,1);
-	
+	Eigen::MatrixXi M(6,2) ;
+	M << 0,1,0,2,0,3,1,2,1,3,2,3;
+	vector<vector<unsigned int>> v ={{0,3,1}} ;
+	unsigned int n = v.size();
+	ASSERT_TRUE(checkOrient(n,M,v));
 }
-TEST(UtilsTest,DualCoordinatesT)
+TEST(orientTest, WrongOrientation)
 {
-	Polyhedral polygon;
-	createTetrahedron(polygon);
-	Polyhedral dual = DualPolygon(polygon);
-	
-	const auto& face = polygon.Cell2DsVertices[0];
-	
-	Vector3d barycenter = Vector3d :: Zero();
-	
-	for (auto v : face)
-		barycenter += polygon.Cell0DsCoordinates.row(v).transpose();
-	
-	barycenter /= face.size();
-	
-	Vector3d dualVertices = dual.Cell0DsCoordinates.row(0).transpose();
-	
-	EXPECT_EQ((dualVertices - barycenter).norm(),0.0);
-		
+	Eigen :: MatrixXi M(6,2);
+	M << 0,1,0,2,0,3,1,2,1,3,2,3;
+	vector<vector<unsigned int>> v ={{0,5,1}};
+	unsigned int n = v.size();
+	ASSERT_FALSE(checkOrient(n,M,v));
 }
-TEST(UtilsTest,DualC)
+TEST(DualTest,RightCoordinates)
 {
-	Polyhedral polygon;
-	createCube(polygon);
-	
-	Polyhedral dual = DualPolygon(polygon);
-	
-	EXPECT_EQ(dual.NumCell0Ds, polygon.NumCell2Ds);
-	EXPECT_EQ(polygon.NumCell0Ds, dual.NumCell2Ds);
-	EXPECT_EQ(dual.NumCell3Ds,1);
-	
+	Eigen::MatrixXd C(3,3);
+	Eigen::Vector3d barycenter;
+	Eigen::Vector3d v;
+	C << +1,+1,+1,-1,-1,+1,-1,+1,-1;
+	barycenter = (C.colwise().sum())/3;
+	v = {-1.0/3,+1.0/3,+1.0/3};
+	ASSERT_EQ(barycenter,v);
 }
-TEST(UtilsTest,DualCoordinatesC)
+TEST(DualTest,WrongCoordinates)
 {
-	Polyhedral polygon;
-	createCube(polygon);
-	Polyhedral dual = DualPolygon(polygon);
-	
-	const auto& face = polygon.Cell2DsVertices[0];
-	
-	Vector3d barycenter = Vector3d :: Zero();
-	
-	for (auto v : face)
-		barycenter += polygon.Cell0DsCoordinates.row(v).transpose();
-	
-	barycenter /= face.size();
-	
-	Vector3d dualVertices = dual.Cell0DsCoordinates.row(0).transpose();
-	
-	EXPECT_EQ((dualVertices - barycenter).norm(),0.0);
-		
+	Eigen::MatrixXd C(3,3);
+	Eigen::Vector3d barycenter;
+	Eigen::Vector3d v;
+	Eigen::Vector3d b;
+	Eigen::Vector3d z;
+	C << +1,+1,+1,-1,-1,+1,-1,+1,-1;
+	barycenter = (C.colwise().sum())/3;
+	v = {-1.0/3,+1.0/3,+1.0/3};
+	z = {+1.0,+1.0,+1.0};
+	b = v+z;
+	ASSERT_NE(barycenter,b);
 }
-TEST(UtilsTest,DualOfDual)
+TEST(GeodesicTest,CorrectGeneration)
 {
 	Polyhedral polygon;
-	createCube(polygon);
-	Polyhedral dual_1 = DualPolygon(polygon);
-	Polyhedral dual_2 = DualPolygon(dual_1);
+	polygon.NumCell0Ds = 3;
+	polygon.NumCell1Ds = 1;
+	polygon.NumCell2Ds = 1;
+	polygon.Cell2DsVertices.push_back({0,1,2});
 	
-	EXPECT_EQ(dual_2.NumCell0Ds, polygon.NumCell0Ds);
-	EXPECT_EQ(dual_2.NumCell1Ds, polygon.NumCell1Ds);
-	EXPECT_EQ(dual_2.NumCell2Ds, polygon.NumCell2Ds);
+	polygon.Cell0DsCoordinates.resize(3,3);
+	polygon.Cell0DsCoordinates << 1,0,0,0,1,0,0,0,1;
+	polygon.Cell1DsVertices.resize(3,2);
+	polygon.Cell1DsVertices << 0,1,0,2,1,2;
+	
+	GeodesicPolyhedron(3,3,0,2,polygon);
+	
+	ASSERT_EQ(polygon.Cell0DsCoordinates.rows(),6);
+	ASSERT_EQ(polygon.Cell1DsVertices.rows(),9);
+	ASSERT_EQ(polygon.Cell2DsVertices.size(),4);
 }
-TEST(UtilsTest,DualI)
+TEST(VectorCompareTest,RightOrdering)
 {
-	Polyhedral polygon;
-	createIcosahedron(polygon);
+	Eigen::Vector3d v1 = {1.0,0.0,0.0};
+	Eigen::Vector3d v2 = {1.0,1.0,0.0};
+	Eigen::Vector3d v3 = {1.0,0.0,0.0};
 	
-	Polyhedral dual = DualPolygon(polygon);
+	Vector3dCompare comp;
 	
-	EXPECT_EQ(dual.NumCell0Ds, polygon.NumCell2Ds);
-	EXPECT_EQ(polygon.NumCell0Ds, dual.NumCell2Ds);
-	EXPECT_EQ(dual.NumCell3Ds,1);
-	
+	ASSERT_TRUE(comp(v1,v2));
+	ASSERT_FALSE(comp(v2,v1));
+	ASSERT_FALSE(comp(v1,v3));
 }
-TEST(UtilsTest,DualCoordinatesI)
+TEST(shortestPathTest,RightPath)
 {
 	Polyhedral polygon;
-	createIcosahedron(polygon);
-	Polyhedral dual = DualPolygon(polygon);
+	polygon.Cell0DsCoordinates.resize(3,3);
+	polygon.Cell0DsCoordinates << 0,0,0,+1,+1,+1,-2,-2,-2;
+	polygon.Cell1DsVertices.resize(3,2);
+	polygon.Cell1DsVertices << 0,1,0,2,1,2;
+	unsigned int start = 0;
+	unsigned int end = 2;
+	vector<unsigned int> path;
+	vector<unsigned int> crossedEdges;
+	shortestPath(polygon,start,end,path,crossedEdges);
 	
-	const auto& face = polygon.Cell2DsVertices[0];
+	vector<unsigned int> expected_path = {0,1,2} ;
+	vector<unsigned int> expected_crossedEdges = {0,1,2};
+	ASSERT_EQ(path,expected_path);
+	ASSERT_EQ(crossedEdges,expected_crossedEdges);
+}
+TEST(shortestPathTest,WrongPath)
+{
+	Polyhedral polygon;
+	polygon.Cell0DsCoordinates.resize(3,3);
+	polygon.Cell0DsCoordinates << 0,0,0,+1,+1,+1,-2,-2,-2;
+	polygon.Cell1DsVertices.resize(3,2);
+	polygon.Cell1DsVertices << 0,1,0,2,1,2;
+	unsigned int start = 0;
+	unsigned int end = 2;
+	vector<unsigned int> path;
+	vector<unsigned int> crossedEdges;
+	shortestPath(polygon,start,end,path,crossedEdges);
 	
-	Vector3d barycenter = Vector3d :: Zero();
-	
-	for (auto v : face)
-		barycenter += polygon.Cell0DsCoordinates.row(v).transpose();
-	
-	barycenter /= face.size();
-	
-	Vector3d dualVertices = dual.Cell0DsCoordinates.row(0).transpose();
-	
-	EXPECT_EQ((dualVertices - barycenter).norm(),0.0);
-		
+	vector<unsigned int> expected_path = {0,2,1} ;
+	vector<unsigned int> expected_crossedEdges = {1,0,2};
+	ASSERT_NE(path,expected_path);
+	ASSERT_NE(crossedEdges,expected_crossedEdges);
 }

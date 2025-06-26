@@ -63,7 +63,7 @@ bool createTetrahedron (Polyhedral& polygon)
 						   {1,5,2}, /* DCB */
 						   {3,5,4}}; /* BDA */
 	
-	checkOrient(polygon); 
+	checkOrient(polygon.NumCell2Ds, polygon.Cell1DsVertices, polygon.Cell2DsEdges); 
 	
 	polygon.NumCell3Ds = 1; /* Un unico tetraedro*/
 	polygon.Cell3DsId.push_back(0); /* Un solo ID */
@@ -105,9 +105,9 @@ bool createCube (Polyhedral& polygon)  /*Creo una funzione che popoli la mia str
 							  6,7, /* GH */
 							  7,4, /* HE */
 						      0,4, /* AE */
-							  1,5, /* BF */
+							  1,7, /* BH */
 							  2,6, /* CG */
-							  3,7; /* DH */
+							  3,5; /* DF */
 						   
    polygon.NumCell2Ds = 6;
    
@@ -119,19 +119,19 @@ bool createCube (Polyhedral& polygon)  /*Creo una funzione che popoli la mia str
    
    polygon.Cell2DsVertices = {{0,1,2,3}, /* ABCD */
 							  {4,5,6,7}, /* EFGH */
-							  {0,1,5,4}, /* ABFE */
-							  {1,2,6,5}, /* BCGF */
-							  {2,3,7,6}, /* CDEH */
-							  {3,0,4,7}}; /* DAEH */
+							  {0,1,7,4}, /* ABFE */
+							  {1,2,6,7}, /* BCGH */
+							  {2,3,5,6}, /* CDFG */
+							  {3,0,4,5}}; /* DAEF */
 							  
    polygon.Cell2DsEdges = {{0,1,2,3}, /* AB-BC-CD-DA */ 
 						   {4,5,6,7}, /* EF-FG-GH-HE */
-						   {0,9,4,8}, /* AB-BF-EF-AE */
-						   {1,10,5,9}, /* BC-CG-FG-BF */
-						   {2,11,6,10}, /* CD-DH-GH-CG */
-						   {3,8,7,11}}; /* DA-AE-HE-DH */
+						   {0,9,7,8}, /* AB-BF-EF-AE */
+						   {1,10,6,9}, /* BC-CG-FG-BF */
+						   {2,11,5,10}, /* CD-DH-GH-CG */
+						   {3,8,4,11}}; /* DA-AE-HE-DH */
 						   
-   checkOrient(polygon);
+   checkOrient(polygon.NumCell2Ds, polygon.Cell1DsVertices, polygon.Cell2DsEdges);
    
    polygon.NumCell3Ds = 1; /* Un unico cubo*/
    polygon.Cell3DsId.push_back(0); /* Un solo ID */
@@ -254,7 +254,7 @@ bool createIcosahedron (Polyhedral& polygon)
 							{24, 23, 26},
 							{28, 7, 8}};
 							
-	checkOrient (polygon);
+	checkOrient (polygon.NumCell2Ds, polygon.Cell1DsVertices, polygon.Cell2DsEdges);
 	
 	polygon.NumCell3Ds = 1; /* Un unico icosaedro*/
 	polygon.Cell3DsId.push_back(0); /* Un solo ID */

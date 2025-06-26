@@ -1,0 +1,39 @@
+@startuml
+
+package "PolyhedralLibrary" {
+
+class Polyhedral {
+
+-NumCell0Ds : unsigned int
+-NumCell1Ds : unsigned int
+-NumCell2Ds : unsigned int
+-NumCell3Ds : unsigned int
+
+-Cell0DsCoordinates : MatrixXd
+-Cell0DsId : vector <unsigned int>
+-MarkerCell0Ds : map<unsigned int,vector<unsigned int>>
+-Cell1DsVertices : MatrixXi
+-Cell1DsId : vector<unsigned int>
+-MarkerCell1Ds : map <unsigned int,vector<unsigned int>>
+-Cell2DsVertices : vector<vector<unsigned int>>
+-Cell2DsEdges : vector<vector<unsigned int>>
+-Cell2DsId : vector<unsigned int>
+-Cell3DsVertices : vector<vector<unsigned int>>
+-Cell3DsEdges : vector<vector<unsigned int>>
+-Cell3DsFaces : vector<vector<unsigned int>>
+-Cell3DsId : vector<unsigned int>
+
+}
+
+class Utils{
++createTetrahedron(Polyhedral& polygon) : bool
++createCube(Polyhedral& polygon) : bool
++createIcosahedron(Polyhedral& polygon) : bool
++checkOrient(n : unsigned int&, Vertices : MatrixXi& , Edges : vector<vector<unsigned int>>&) : bool
+}
+
+class Gedim::UCDUtilities {
++ExportPoints(filename: string, coord MatrixXd, properties: vector<UCDProperty<double>>) : void
++ExportSegments(filename: string, coord MatrixXi, edges: MatrixXi, faces: vector<vector<unsigned int>>, properties: vector<UCDProperty<double>>): void
+}
+}
