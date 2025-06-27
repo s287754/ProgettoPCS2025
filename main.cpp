@@ -34,10 +34,12 @@ int main () {
 	
 	Polyhedral cube;
 	createCube(cube);
+	
 	Polyhedral octahedron = DualPolygon(cube);
 	
 	Polyhedral icosahedron;
 	createIcosahedron(icosahedron);
+	
 	Polyhedral dodecahedron = DualPolygon(icosahedron);
 	
 	unsigned int p = input[0];
@@ -92,11 +94,16 @@ int main () {
 	
 	cout << "Ho creato il poliedro geodetico del" << name << endl ;
 	
+	Polyhedral dualPoly = DualPolygon(poly);
+	cout << "Ho creato anche il duale del poliedro geodetico del" << name << endl;
 	vector<unsigned int> path;
 	vector<unsigned int> crossedEdges;
 
 	if (shortestPath(poly,start,end,path,crossedEdges))
 		exportToUCD (poly, name,path, crossedEdges);
-
+	
+	vector<unsigned int> emptyPath;
+	vector<unsigned int> emptyEdges;
+	exportToUCD(dualPoly,"duale_" + name,emptyPath,emptyEdges);
 	return 0;
 }
