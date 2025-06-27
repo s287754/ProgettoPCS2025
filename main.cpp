@@ -104,7 +104,27 @@ int main () {
 	vector<unsigned int> crossedEdges;
 
 	if (shortestPath(poly,start,end,path,crossedEdges))
-		exportToUCD (poly, name,path, crossedEdges);
+	{
+		poly.Cell0DsProperties["ShortestPath"] = vector<unsigned int>(poly.NumCell0Ds,0);
+		poly.Cell1DsProperties["ShortestPath"] = vector<unsigned int>(poly.Cell1DsVertices.rows(),0);
+		
+		for (auto v : path) poly.Cell0DsProperties["ShortestPath"][v] = 1;
+		for (auto e : crossedEdges) poly.Cell1DsProperties["ShortestPath"][e] = 1;
+		
+		double totalLenght = 0.0;
+		for (auto edgeID : crossedEdges)
+		{
+			unsigned int u = poly.Cell1DsVertices(edgeID, 0);
+			unsigned int v = poly.Cell1DsVertices(edgeID, 1);
+			Vector3d p1 = poly.Cell0DsCoordinates.row(u);
+			Vector3d p2 = poly.Cell0DsCoordinates.row(v);
+			totalLenght += (p2-p1).norm();
+		}	
+		
+		cout << "Somma delle lunghezze degli archi: " << totalLenght << endl;
+	}
+	
+	exportToUCD (poly, name,path, crossedEdges);
 	
 	vector<unsigned int> emptyPath;
 	vector<unsigned int> emptyEdges;

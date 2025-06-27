@@ -16,12 +16,14 @@ namespace PolyhedralLibrary {
 		vector<unsigned int> Cell0DsId = {}; /*ID vertici*/
 		map<unsigned int,vector<unsigned int>> MarkerCell0Ds = {};
 		MatrixXd Cell0DsCoordinates = {}; /* Coordinate vertici n:=numero di righe=numero di vertici + 1 di intestazione; m:=numero di colonne=3(x,y,z) + 1(ID) */
+		map<string,vector<unsigned int>> Cell0DsProperties = {};
 		
 		unsigned int NumCell1Ds = 0;
 		vector<unsigned int> Cell1DsId = {};
 		map<unsigned int,vector<unsigned int>> MarkerCell1Ds = {};
 		MatrixXi Cell1DsVertices = {}; /*ID vertici di origine e di fine n=numero di lati+1; m=3(2 IDOrigin/IDEnd + 1)*/
-
+		map<string,vector<unsigned int>> Cell1DsProperties = {};
+		
 		unsigned int NumCell2Ds = 0;
 		unsigned int NumVertices = 0;
 		unsigned int NumEdges = 0;
