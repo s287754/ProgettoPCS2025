@@ -67,8 +67,11 @@ bool createTetrahedron (Polyhedral& polygon)
 	
 	polygon.NumCell3Ds = 1; /* Un unico tetraedro*/
 	polygon.Cell3DsId.push_back(0); /* Un solo ID */
+	polygon.NumVerticesS = 4;
 	polygon.Cell3DsVertices.push_back(polygon.Cell0DsId); /* ID dei vertici che lo compongono */
+	polygon.NumEdgesS = 6;
 	polygon.Cell3DsEdges.push_back(polygon.Cell1DsId); /* ID dei lati che lo compongono */
+	polygon.NumFacesS = 4;
 	polygon.Cell3DsFaces.push_back(polygon.Cell2DsId); /* ID delle facce che lo compongono */
 	return true;
 }
@@ -135,8 +138,11 @@ bool createCube (Polyhedral& polygon)  /*Creo una funzione che popoli la mia str
    
    polygon.NumCell3Ds = 1; /* Un unico cubo*/
    polygon.Cell3DsId.push_back(0); /* Un solo ID */
+   polygon.NumVerticesS = 8;
    polygon.Cell3DsVertices.push_back(polygon.Cell0DsId); /* ID dei vertici che lo compongono */
+   polygon.NumEdgesS = 12;
    polygon.Cell3DsEdges.push_back(polygon.Cell1DsId); /* ID dei lati che lo compongono */
+   polygon.NumFacesS = 6;
    polygon.Cell3DsFaces.push_back(polygon.Cell2DsId); /* ID delle facce che lo compongono */
 							   
    return true;
@@ -258,8 +264,11 @@ bool createIcosahedron (Polyhedral& polygon)
 	
 	polygon.NumCell3Ds = 1; /* Un unico icosaedro*/
 	polygon.Cell3DsId.push_back(0); /* Un solo ID */
+	polygon.NumVerticesS = 12;
 	polygon.Cell3DsVertices.push_back(polygon.Cell0DsId); /* ID dei vertici che lo compongono */
+	polygon.NumEdgesS = 30;
 	polygon.Cell3DsEdges.push_back(polygon.Cell1DsId); /* ID dei lati che lo compongono */
+	polygon.NumFacesS = 20;
 	polygon.Cell3DsFaces.push_back(polygon.Cell2DsId); /* ID delle facce che lo compongono */
 	
 	return true;

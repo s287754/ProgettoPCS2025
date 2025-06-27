@@ -30,6 +30,9 @@ namespace PolyhedralLibrary {
 		vector<vector<unsigned int>> Cell2DsEdges = {}; /*ID Lati n=numero di facce che compongono il poliedro; m=numero di lati della faccia; */
 		
 		unsigned int NumCell3Ds = 0;
+		unsigned int NumVerticesS = 0; //Numero vertici del solido
+		unsigned int NumEdgesS = 0; //Numero lati del solido
+		unsigned int NumFacesS = 0; //Numero facce del solido
 		vector<unsigned int> Cell3DsId = {};
 		vector<vector<unsigned int>> Cell3DsVertices = {}; /*ID Vertici*/
 		vector<vector<unsigned int>> Cell3DsEdges = {}; /*ID Lati */

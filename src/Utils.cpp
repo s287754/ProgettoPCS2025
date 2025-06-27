@@ -193,8 +193,11 @@ Polyhedral DualPolygon (const Polyhedral& polygon)
 	
     dual.NumCell3Ds = 1;
     dual.Cell3DsId.push_back(0);
+	dual.NumVerticesS = polygon.NumFacesS;
 	dual.Cell3DsVertices.push_back(dual.Cell0DsId);
+	dual.NumEdgesS = polygon.NumEdgesS;
 	dual.Cell3DsEdges.push_back(dual.Cell1DsId);
+	dual.NumFacesS = polygon.NumVerticesS;
 	dual.Cell3DsFaces.push_back(dual.Cell2DsId);
 	
 	return dual;
