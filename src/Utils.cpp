@@ -205,7 +205,9 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	unsigned int real_p = poly.Cell2DsVertices[0].size();
 	if (p != real_p)
 		return false;
-
+	
+	(void) q; //Mi serve nel main, per decidere quale poliedro suddividere, non qui
+	
 	ofstream file_c0("Cell0Ds.txt");
 	
 	if (file_c0.fail())
@@ -550,7 +552,14 @@ bool shortestPath(Polyhedral& polygon,unsigned int start, unsigned int end, vect
 				break;
 			}
 		}
+		
+		if (!found)
+		{
+			cout << "Nessun percorso minimo trovato tra il nodo " << u << " e il nodo" << v << endl;
+			return false;
+		}
 	}
+
 	std::cout << "Lati attraversati (ID): ";
 	for (unsigned int edgeID : crossedEdges)
 	{
