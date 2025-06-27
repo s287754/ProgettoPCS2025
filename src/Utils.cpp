@@ -14,26 +14,24 @@ using namespace std;
 using namespace Eigen;
 namespace PolyhedralLibrary {
 
-bool checkOrient(unsigned int& n, const MatrixXi& Vertices, const vector<vector<unsigned int>>& Edges)
+bool checkOrient(unsigned int& n, const MatrixXi& Vertices, const vector<vector<unsigned int>>& Edges) 
 {
-
 	for (size_t i = 0; i < n; i ++)
 	{
-		
-		const auto& faceEdges = Edges[i];
+		const auto& faceEdges = Edges[i]; //Prendo un vettore alla volta. Es: {0,3,1}
 		size_t E = faceEdges.size();
 		
 		for (size_t e = 0; e < E; e++)
 		{
-			unsigned int currentEdgeId = faceEdges[e];
-			unsigned int nextEdgeId = faceEdges [(e+1)%E];
-			unsigned int currentEdgeStart = Vertices(currentEdgeId,0);
-			unsigned int currentEdgeEnd = Vertices(currentEdgeId,1);
-			unsigned int nextEdgeStart = Vertices(nextEdgeId,0);
-			unsigned int nextEdgeEnd = Vertices(nextEdgeId,1);
+			unsigned int currentEdgeId = faceEdges[e]; //considero un indice. Es 0
+			unsigned int nextEdgeId = faceEdges [(e+1)%E]; //e considero il successivo Es 3
+			unsigned int currentEdgeStart = Vertices(currentEdgeId,0); //All'interno della matrice dei vertici considero Origin
+			unsigned int currentEdgeEnd = Vertices(currentEdgeId,1); //E End del vertice in cEI
+			unsigned int nextEdgeStart = Vertices(nextEdgeId,0); //E Origin 
+			unsigned int nextEdgeEnd = Vertices(nextEdgeId,1); //E End in nEI
 			
 			bool valid = false;
-			
+			//Controllo se la fine di un lato coincide con l'inizio del successivo a meno dell'orientamento
 			if (currentEdgeEnd == nextEdgeStart)
 			{
 				valid = true;
@@ -62,12 +60,12 @@ bool checkOrient(unsigned int& n, const MatrixXi& Vertices, const vector<vector<
 	}
 	return true;
 }
-
+//Funzione che costruisce il duale
 Polyhedral DualPolygon (const Polyhedral& polygon)
 {
 	Polyhedral dual;
 	
-	dual.NumCell0Ds = polygon.NumCell2Ds;
+	dual.NumCell0Ds = polygon.NumCell2Ds; 
 	
 	dual.Cell0DsCoordinates.resize(dual.NumCell0Ds,3);
 	
@@ -76,42 +74,42 @@ Polyhedral DualPolygon (const Polyhedral& polygon)
 		//Per ogni faccia, devo considerare i vertici, e poi trovare il baricentro
 		dual.Cell0DsId.push_back(i);
 		
-		const vector<unsigned int>& faceVertexId = polygon.Cell2DsVertices[i];
+		const vector<unsigned int>& faceVertexId = polygon.Cell2DsVertices[i]; //Considero un vettore di Cell2DsVertices alla volta. Es : {0,1,2,3} per il cubo
 		
-		MatrixXd faceVertices(faceVertexId.size(),3); //4 righe e 3 colonne!!
+		MatrixXd faceVertices(faceVertexId.size(),3); //4 righe e 3 colonne!! (per il cubo)
 		
 		
 		for (unsigned int j = 0; j < faceVertexId.size(); j++)
-			faceVertices.row(j) = polygon.Cell0DsCoordinates.row(faceVertexId[j]);
+			faceVertices.row(j) = polygon.Cell0DsCoordinates.row(faceVertexId[j]); //Vado a inserire i dati nella mia nuova matrice
 		
-		Vector3d sum = faceVertices.colwise().sum();
+		Vector3d sum = faceVertices.colwise().sum(); //Creo un vettore colonna in cui sommo tutte le colonne (sommo le coordinate di tutti i punti)
 		
-		Vector3d barycenter = sum / faceVertexId.size();
-		dual.Cell0DsCoordinates.row(i) = barycenter.transpose();
+		Vector3d barycenter = sum / faceVertexId.size(); //Divido per il numero di vertici di ogni faccia e trovo il baricentro di ogni faccia
+		dual.Cell0DsCoordinates.row(i) = barycenter.transpose(); //Inserisco nella matrice coordinate
 	}
 	
-	set<pair<unsigned int,unsigned int>> addedEdges;
+	set<pair<unsigned int,unsigned int>> addedEdges; //Evito duplicati per i lati nel duale
 	
 	for (unsigned int i = 0; i < polygon.NumCell2Ds; i ++)
 	{
-		const vector<unsigned int>& edgesF = polygon.Cell2DsEdges[i];
+		const vector<unsigned int>& edgesF = polygon.Cell2DsEdges[i]; //Considero una faccia alla volta. Es: {0,1,2,3}
 		
-		for (unsigned int j = i+1; j < polygon.NumCell2Ds; j++)
+		for (unsigned int j = i+1; j < polygon.NumCell2Ds; j++) 
 		{
-			const vector<unsigned int>& edgesG = polygon.Cell2DsEdges[j];
+			const vector<unsigned int>& edgesG = polygon.Cell2DsEdges[j]; //Considero le facce successive a quella considerata. Es: {4,5,6,7}
 			
-			for (unsigned int e1 : edgesF)
+			for (unsigned int e1 : edgesF) //Prima faccia : controllo ogni elemento
 			{
-				for (unsigned int e2 : edgesG)
+				for (unsigned int e2 : edgesG) //Seconda faccia : controllo ogni elemento
 				{
-					if (e1 == e2)
+					if (e1 == e2) //Controllo che condividano almeno un bordo e siano quindi adiacenti
 					{
-						if (addedEdges.find({i,j}) == addedEdges.end())
+						if (addedEdges.find({i,j}) == addedEdges.end()) //Controllo che non sia stato già trattato
 							{
-								addedEdges.insert({i,j});
-								dual.Cell1DsId.push_back(dual.NumCell1Ds++);
+								addedEdges.insert({i,j}); //Se non presente, aggiungilo
+								dual.Cell1DsId.push_back(dual.NumCell1Ds++); //Aggiungo l'ID
 								dual.Cell1DsVertices.conservativeResize(dual.NumCell1Ds,2);
-								dual.Cell1DsVertices.row(dual.NumCell1Ds - 1) << i,j;
+								dual.Cell1DsVertices.row(dual.NumCell1Ds - 1) << i,j; //Aggiungo i nodi del duale alla matrice dei Vertici 
 							}
 					}
 				}
@@ -121,43 +119,43 @@ Polyhedral DualPolygon (const Polyhedral& polygon)
 	
 	dual.NumCell2Ds = polygon.NumCell0Ds;
 	
-	for (unsigned int v = 0; v < polygon.NumCell0Ds; v++)
+	for (unsigned int v = 0; v < polygon.NumCell0Ds; v++) //Itero su tutti i vertici del poligono originale
 	{
-		vector<unsigned int> adjacentFaces;
+		vector<unsigned int> adjacentFaces; //Creo un vettore che memorizzerà le facce che contengono il vertice v (saranno adiacenti)
 		
 		for (unsigned int f = 0; f < polygon.NumCell2Ds; f++ )
 		{
-			const auto& faceVertices = polygon.Cell2DsVertices[f];
-			if (find(faceVertices.begin(),faceVertices.end(),v) != faceVertices.end())
-				adjacentFaces.push_back(f);
+			const auto& faceVertices = polygon.Cell2DsVertices[f]; //Considero una faccia alla volta. Es: {0,1,2,3}
+			if (find(faceVertices.begin(),faceVertices.end(),v) != faceVertices.end()) //Cerco tutte le facce che contengono il vertice v
+				adjacentFaces.push_back(f); //Memorizzo tutte le facce che contengono v nel nuovo vettore
 		}
 		
-		vector<unsigned int> ordered;
-		unordered_set<unsigned int> visited;
-		ordered.push_back(adjacentFaces[0]);
+		vector<unsigned int> ordered; //Mi serve questo vettore per mettere in ordine i vertici della faccia
+		unordered_set<unsigned int> visited; //Mi serve per evitare ripetizioni
+		ordered.push_back(adjacentFaces[0]); //Parto dalla prima faccia
 		visited.insert(adjacentFaces[0]);
-		
+		//Nel ciclo ordino tutte le facce
 		while(ordered.size() < adjacentFaces.size())
 		{
-			unsigned int last = ordered.back();
-			const auto& edgesF = polygon.Cell2DsEdges[last];
+			unsigned int last = ordered.back(); //Considero l'ultima faccia aggiunta 
+			const auto& edgesF = polygon.Cell2DsEdges[last]; //Considero i lati di questa ultima faccia aggiunta
 			bool found = false;
-			for(unsigned int f : adjacentFaces)
+			for (unsigned int f : adjacentFaces) 
 			{
-				if (visited.count(f)) 
+				if (visited.count(f)) //Se la faccia f è già stata visitata, salto
 					continue;
-				const auto& edgesG = polygon.Cell2DsEdges[f];
-				for (unsigned int eF : edgesF)
+				const auto& edgesG = polygon.Cell2DsEdges[f]; //Prendo i lati della faccia f
+				for (unsigned int eF : edgesF) //Per ogni elemento dell'ultima faccia aggiunta
 				{
-					if (find(edgesG.begin(),edgesG.end(), eF) != edgesG.end())
+					if (find(edgesG.begin(),edgesG.end(), eF) != edgesG.end()) //Cerco un bordo comune : se lo trovo, le facce sonoa diacenti
 					{
-						ordered.push_back(f);
-						visited.insert(f);
+						ordered.push_back(f); //Inserisco in ordered
+						visited.insert(f); //Inserisco in visited
 						found = true;
 						break;
 					}
 				}
-				if (found)
+				if (found) //Ho trovato la faccia da aggiungere quindi interrompo il ciclo
 					break;
 			}
 			if (!found)
@@ -167,30 +165,30 @@ Polyhedral DualPolygon (const Polyhedral& polygon)
 		dual.Cell2DsVertices.push_back(ordered);
 		dual.Cell2DsId.push_back(v);
 	}
-	
+	//Creo adesso Cell2DsEdges
 	for (unsigned int f = 0; f < dual.Cell2DsVertices.size() ; f++)
 	{
 		
-		vector<unsigned int>& face_vertices = dual.Cell2DsVertices[f];
-		vector<unsigned int> face_edges;
+		vector<unsigned int>& face_vertices = dual.Cell2DsVertices[f]; //Considero una faccia alla volta
+		vector<unsigned int> face_edges; //Vettore locale
 		for (unsigned int i = 0; i < face_vertices.size(); i++)
 		{
-			unsigned int vert_1 = face_vertices[i];
-			unsigned int vert_2 = face_vertices[(i+1)%face_vertices.size()];
+			unsigned int vert_1 = face_vertices[i]; //Prendo un vertice*
+			unsigned int vert_2 = face_vertices[(i+1)%face_vertices.size()]; //Prendo il successivo*
 			
 			for (unsigned int k = 0; k < dual.Cell1DsVertices.rows(); k++)
 			{
-				unsigned int coord_origin = dual.Cell1DsVertices(k,0);
-				unsigned int coord_end = dual.Cell1DsVertices(k,1);
-				if ((coord_origin == vert_1 && coord_end == vert_2) || (coord_origin == vert_2 && coord_end == vert_1))
+				unsigned int coord_origin = dual.Cell1DsVertices(k,0); //Prendo Origin di un vertice
+				unsigned int coord_end = dual.Cell1DsVertices(k,1); //Prendo End dello stesso vertice
+				if ((coord_origin == vert_1 && coord_end == vert_2) || (coord_origin == vert_2 && coord_end == vert_1)) //Se l'origin o l'end del vertice coincide con vertice*
 				{
-					face_edges.push_back(k);
+					face_edges.push_back(k); //Inserisco nel vettore locale
 					break;
 				}
 			}
 			
 		}
-		dual.Cell2DsEdges.push_back(face_edges);
+		dual.Cell2DsEdges.push_back(face_edges); //Salvo ogni vettore locale in Cell2DsEdges
 	}
 	
     dual.NumCell3Ds = 1;
@@ -218,20 +216,18 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	
 	file_c0 << "ID\tx\t\ty\t\tz\n" ;
 	
-	vector<vector<Vector3d>> SubdividedVertices(poly.NumCell2Ds); //Ne avremo 4 per il tetraedro, uno per ogni faccia
 	MatrixXd original_coords = poly.Cell0DsCoordinates; //Creo una copia dei vertici originali
 	
 	vector<vector<vector<unsigned int>>> grids(poly.NumCell2Ds);
 	
 	unsigned int ID = 0;
 
-	vector<Vector3d> ordered_vertices;
+	vector<Vector3d> ordered_vertices; //Memorizzo i vettori ordinati
 	map<Vector3d,unsigned int, Vector3dCompare> vertices_id; //Associo a ogni vertice un ID, se il vertice non è presente.
 	
 	for (unsigned int f = 0; f < poly.NumCell2Ds; f++)
 	{
 		vector<unsigned int> face = poly.Cell2DsVertices[f]; //Es: {0,1,2}
-		vector<Vector3d> face_vertices; //vettore locale in cui salvo i miei nuovi vertici
 		vector<vector<unsigned int>> grid(max(b,c)+1); //griglia in cui salvo gli id dei miei nuovi vertici
 		
 		for (unsigned int i = 0; i < max(b,c) + 1; i++)
@@ -250,13 +246,13 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 				unsigned int k = max(b,c) - i - j;
 				Vector3d P = (i * A + j * B + k * C) / double(max(b,c)); //Coordinate baricentriche
 				P.normalize(); //proiezione su sfera
-				face_vertices.push_back(P); 
+				//face_vertices.push_back(P); 
 				
 				auto it = vertices_id.find(P); //Controllo che il vertice non sia già stato generato
 				if (it == vertices_id.end())
 				{
 					vertices_id[P] = ID; //vertice non ancora generato : assegna un nuovo ID
-					ordered_vertices.push_back(P);
+					ordered_vertices.push_back(P); //inserisco il nuovo vertice nel vettore di vertici ordinati
 					ID ++;
 				}
 				unsigned int idx = vertices_id[P]; //Recupera l'ID del vertice (nuovo o già generato in precedenza)
@@ -266,8 +262,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 		}
 		
 		grids[f] = grid;
-		SubdividedVertices[f] = face_vertices;
-
+		
 	}
 	
 	poly.Cell0DsCoordinates.resize(ordered_vertices.size(),3);
@@ -275,18 +270,18 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	
 	for (size_t i = 0; i < ordered_vertices.size() ; i++) 
 	{	
-		poly.Cell0DsCoordinates.row(i) = ordered_vertices[i];
+		poly.Cell0DsCoordinates.row(i) = ordered_vertices[i]; //Inserisco nella struttura tutti i vertici nuovi prodotti dalla geodetizzazione una e una sola volta
 		poly.Cell0DsId.push_back(i);
 		const Vector3d& v = ordered_vertices[i];
-		file_c0 << poly.Cell0DsId[i] << "\t" << v(0) << "\t" << v(1) << "\t" << v(2) << "\n";	
+		file_c0 << poly.Cell0DsId[i] << "\t" << v(0) << "\t" << v(1) << "\t" << v(2) << "\n"; //Stampo nel file
 	}
 
-	poly.NumCell0Ds = poly.Cell0DsCoordinates.rows();
+	poly.NumCell0Ds = poly.Cell0DsCoordinates.rows(); //Aggiorno la variabile
 
 	file_c0.close();
 
 	ofstream file_c1("Cell1Ds.txt");
-	
+	//Genero il file Cell1Ds.txt
 	if (file_c1.fail())
 	{
 		cout <<"Errore nell'apertura del file" << endl;
@@ -297,25 +292,25 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	
 	set<pair<unsigned int,unsigned int>> edges;
 	
-	for (unsigned int f = 0; f < poly.NumCell2Ds ; f++)
+	for (unsigned int f = 0; f < poly.NumCell2Ds ; f++)                                            //La mia griglia sarà così fatta (Es per il triangolo con c = 3)
 	{
-		const auto& grid = grids[f];
-		
-		for(unsigned int i = 0; i < grid.size(); i++)
-		{
+		const auto& grid = grids[f];                                                               // 0   1   2   3
+		                                                                                           // 4   5   6
+		for(unsigned int i = 0; i < grid.size(); i++)                                              // 7   8
+		{                                                                                          // 9           
 			for (unsigned int j = 0; j < grid[i].size(); j++)
 			{
 				
 				unsigned int v = grid[i][j];
 				
 				if (i+1 < grid.size() && j < grid[i+1].size())
-					edges.insert(minmax(v,grid[i+1][j]));
-				
+					edges.insert(minmax(v,grid[i+1][j])); //minmax serve a inserire gli edges in ordine (origin sarà sempre minore di end)
+				//Collegamento in basso
 				if (j+1 < grid[i].size())
-					edges.insert(minmax(v,grid[i][j+1]));
+					edges.insert(minmax(v,grid[i][j+1])); //Collegamento a dx
 				
 				if (j > 0 && i+1 < grid.size() && j-1 < grid[i+1].size())
-					edges.insert(minmax(v,grid[i+1][j-1]));
+					edges.insert(minmax(v,grid[i+1][j-1])); //Collegamento in basso a sx
 
 			}
 		}
@@ -326,7 +321,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	for (const auto& [a, b] : edges) {
 		file_c1 << edgeID++ << "\t" << a << "\t\t" << b << "\n";
 	}
-	
+	//Inserisco tutto all'interno di Cell1DsVertices
 	poly.Cell1DsVertices.resize(edges.size(),2);
 	unsigned int v = 0;
 	for (const auto& [a,b] : edges)
@@ -362,7 +357,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	
 	poly.Cell2DsId.clear();
 	poly.Cell2DsVertices.clear();
-	
+	//Creo la triangolazione
 	for (unsigned int f = 0; f < poly.NumCell2Ds; f++)
 	{
 		const auto& grid = grids[f];
@@ -373,17 +368,17 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 			{
 				if (j < grid[i+1].size())
 				{
-					unsigned int A = grid[i][j];
-					unsigned int B = grid[i+1][j];
-					unsigned int C = grid[i][j+1];
+					unsigned int A = grid[i][j]; //0
+					unsigned int B = grid[i+1][j]; //4
+					unsigned int C = grid[i][j+1]; //1
 					poly.Cell2DsVertices.push_back({A,B,C});
 				}
 				
 				if (j+1 < grid[i+1].size())
 				{
-					unsigned int A = grid[i][j+1];
-					unsigned int B = grid[i+1][j];
-					unsigned int C = grid[i+1][j+1];
+					unsigned int A = grid[i][j+1]; //1
+					unsigned int B = grid[i+1][j]; //4
+					unsigned int C = grid[i+1][j+1]; //5
 					poly.Cell2DsVertices.push_back({A,B,C});
 					
 				}
@@ -392,7 +387,7 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 	}
 	
 	poly.Cell2DsEdges.clear();
-	
+	//Come nel duale costruisco Cell2DsEdges
 	for (unsigned int f = 0; f < poly.Cell2DsVertices.size() ; f++)
 	{
 		
@@ -482,39 +477,39 @@ bool GeodesicPolyhedron(const unsigned int& p, const unsigned int& q, const unsi
 
 	return true;	
 }
-
+//Calcolo il cammino minimo con BFS
 bool shortestPath(Polyhedral& polygon,unsigned int start, unsigned int end, vector<unsigned int>& path,vector<unsigned int>& crossedEdges)
 {
-	int n = polygon.NumCell0Ds;
-	vector<bool> visited(n,false);
-	vector<unsigned int> predecessor(n,-1);
+	int n = polygon.NumCell0Ds; //Numero di vertici della mesh
+	vector<bool> visited(n,false); //Nodi già visitati
+	vector<unsigned int> predecessor(n,-1); //Salvo il nodo da cui arrivo per ricostruire il percorso
 	
-	vector<vector<unsigned int>> adj(n);
+	vector<vector<unsigned int>> adj(n); //Memorizzo i nodi adiacenti per ogni nodo
 	
 	for (unsigned int i = 0; i < polygon.Cell1DsVertices.rows(); i++)
 	{
-		unsigned int u = polygon.Cell1DsVertices(i,0);
-		unsigned int v = polygon.Cell1DsVertices(i,1);
-		adj[u].push_back(v);
+		unsigned int u = polygon.Cell1DsVertices(i,0); //Origine del lato
+		unsigned int v = polygon.Cell1DsVertices(i,1); //End del lato
+		adj[u].push_back(v); //Grafo non orientato
 		adj[v].push_back(u);
 	}
 	
-	queue<unsigned int> Q;
+	queue<unsigned int> Q; //creo la cosa
 	Q.push(start);
-	visited[start] = true;
+	visited[start] = true; //Parto dal primo nodo (lo chiedo in input)
 
 	while(!Q.empty())
 	{
-		unsigned int u = Q.front();
-		Q.pop();
+		unsigned int u = Q.front(); //Considera il primo nodo della coda
+		Q.pop(); //Eliminalo dalla coda
 		
-		for (unsigned int w : adj[u])
+		for (unsigned int w : adj[u]) //Considera tutti i nodi adiacenti a u
 		{
-			if (!visited[w])
+			if (!visited[w]) //Se non è stato visitato
 			{
-				visited[w] = true;
-				predecessor[w] = u;
-				Q.push(w);
+				visited[w] = true; //Lo considero visitato
+				predecessor[w] = u; //Salvo il predecessore 
+				Q.push(w); //Lo inserisco nella coda
 				if (w == end)
 					break;
 			}
@@ -536,7 +531,7 @@ bool shortestPath(Polyhedral& polygon,unsigned int start, unsigned int end, vect
     std::cout << idx << " ";
 	}
 	std::cout << std::endl;
-	
+	//Per ogni coppia di vertici cerco il lato che li connette effettivamente
 	for (size_t i = 0; i < path.size()-1; i++)
 	{
 		unsigned int u = path[i];
@@ -550,7 +545,7 @@ bool shortestPath(Polyhedral& polygon,unsigned int start, unsigned int end, vect
 			
 			if ((Origin == u && End == v) || (Origin == v && End == u))
 			{
-				crossedEdges.push_back(j);
+				crossedEdges.push_back(j); //Se il lato collega i due vertici della mesh, lo salvo
 				found = true;
 				break;
 			}

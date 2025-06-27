@@ -1,4 +1,5 @@
 @startuml
+title GeodesicPolyhedra
 
 package "PolyhedralLibrary" {
 
@@ -23,17 +24,37 @@ class Polyhedral {
 -Cell3DsFaces : vector<vector<unsigned int>>
 -Cell3DsId : vector<unsigned int>
 
-}
-
-class Utils{
 +createTetrahedron(Polyhedral& polygon) : bool
 +createCube(Polyhedral& polygon) : bool
 +createIcosahedron(Polyhedral& polygon) : bool
-+checkOrient(n : unsigned int&, Vertices : MatrixXi& , Edges : vector<vector<unsigned int>>&) : bool
+
+.. TESTGEOMETRY ..
+GeometryTest
 }
 
+class Utils{
++checkOrient(n : unsigned int&, Vertices : MatrixXi& , Edges : vector<vector<unsigned int>>&) : bool
++DualPolygon(polygon: Polyhedral) : Polyhedral
++GeodesicPolyhedron(p : unsigned int, q : unsigned int, b: unsigned int, c : unsigned int, polygon : Polyhedral) : bool
++shortestPath(polygon : Polyhedral, basename : string, path : vector<unsigned int>&, crossedEdges : vector<unsigned int>&,) : void
++exportToUCD (polygon : Polyhedral, basename : string, path : vector<unsigned int>&, crossedEdges : vector<unsigned int>&) : void
+
+
+.. TESTUTILS ..
+orientTest
+DualTest
+GeodesicTest
+VectorCompareTest
+shortestPathTest
+}
+}
+package Gedim <<external>> {
 class Gedim::UCDUtilities {
 +ExportPoints(filename: string, coord MatrixXd, properties: vector<UCDProperty<double>>) : void
 +ExportSegments(filename: string, coord MatrixXi, edges: MatrixXi, faces: vector<vector<unsigned int>>, properties: vector<UCDProperty<double>>): void
 }
+
+Polyhedral "1" -- "many" Utils : uses >
+
 }
+@enduml

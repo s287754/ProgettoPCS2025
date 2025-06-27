@@ -18,12 +18,12 @@ namespace PolyhedralLibrary
 	bool shortestPath(Polyhedral& polygon,unsigned int start, unsigned int end, vector<unsigned int>& path, vector<unsigned int>& crossedEdges);
 	void exportToUCD(const Polyhedral &polygon, const string& basename,vector<unsigned int>& path, vector<unsigned int>& crossedEdges);
 	
-	struct Vector3dCompare {
+	struct Vector3dCompare { //Struttura per evitare ripetizione all'interno delle nuove Coordinates(mi servono ordinate per generare correttamente gli edges)
 		bool operator()(const Vector3d& v1, const Vector3d& v2) const 
 		{
-			if (v1.x() != v2.x()) return v1.x() < v2.x();
-			if (v1.y() != v2.y()) return v1.y() < v2.y();
-			return v1.z() < v2.z();
+			if (v1.x() != v2.x()) return v1.x() < v2.x(); //Se x è diverso, prendi x minore
+			if (v1.y() != v2.y()) return v1.y() < v2.y(); //Se y è diverso, prendi y minore
+			return v1.z() < v2.z(); //prendi z minore
 		}
 	};
 }
