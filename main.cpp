@@ -95,6 +95,10 @@ int main () {
 	cout << "Ho creato il poliedro geodetico del" << name << endl ;
 	
 	Polyhedral dualPoly = DualPolygon(poly);
+	
+	for (unsigned int i = 0; i < dualPoly.Cell0DsCoordinates.rows(); ++i) {
+    dualPoly.Cell0DsCoordinates.row(i).normalize();
+	}
 	cout << "Ho creato anche il duale del poliedro geodetico del" << name << endl;
 	vector<unsigned int> path;
 	vector<unsigned int> crossedEdges;
@@ -105,5 +109,6 @@ int main () {
 	vector<unsigned int> emptyPath;
 	vector<unsigned int> emptyEdges;
 	exportToUCD(dualPoly,"duale_" + name,emptyPath,emptyEdges);
+	
 	return 0;
 }
